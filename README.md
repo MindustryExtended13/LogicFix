@@ -1,5 +1,58 @@
-# Mindustry Java Mod
-A Java Mindustry mod that works on Android and PC.
+# Logic fix Mod
+Mindustry java mod that gives utils to add custom logic and works on Android and PC.
+
+## Documentation
+ 
+### How add log example
+
+```java
+public class Example extends Mod {
+    public static final ILogger LOGGER = LoggerFactory.build(MOD_ID);
+    
+    public ExampleMod() {
+        final LogBinder TEST_BINDER = LOGGER.atInfo().setPrefix("test");
+        Events.on(LogicFixRegisterEvent.class, (e) -> {
+            e.register("test", () -> new LStatement().category(LCategory.io).data(new LStatementData()
+                .add(LStatementEntry.literal("Message:")).add(LStatementEntry.largeField("message"))
+            ).executor((s, exec) -> {
+                TEST_BINDER.log(String.valueOf(exec.obj(s.valueMap.get("message"))));
+            }));
+        });
+    }
+}
+```
+
+### Registering statement
+
+Okay, let's analyse code by step
+When client loads, mod calls `LogicFixRegisterEvent` to register all statements
+Event calls only 1 times and do not call `process` method!
+`register` method register a statement with given name and statement
+
+### logicfix.LStatement
+
+`logicfix.LStatement` it\`s modified version of default `mindustry.logic.LStatement`.
+`logicfix.LStatement` can storage and use variables by `java.lang.String` id as Object and when statement
+runs this values will be parsed to the valueMap as int and with the same id. To get variable name
+you can use not parsed keyMap with variables that written in the fields.
+`logicfix.LStatement` returns this class this means this can easy setup and don\`t requires
+to extend, all can be setup with using new.
+variables:
+- category (by default `LCategory.unknown`)
+- name (`null` if use registered name, by default `null`)
+- localized name (`null` if use registered name, by default `null`)
+- executor (with `Cons2` or `LInstruction`, by default noop)
+- privileged (by default `false`)
+- nonPrivileged (by default `true`)
+- data (by default `new LStatementData()`)
+
+### About `logicfix.LStatementData`
+
+This class that used in `logicfix.LStatement` for building ui, reading and writing values
+LStatementData (LSD) stores LSE (`logicfix.LStatementEntry`) that used to read and write and building ui
+LSE have by default many static method that can be used for building ui or fields.
+Some LSE don\`t stores data (example: `logicfix.LStatementEntry.literal(String)`).
+In this statements `doSkip` method was always be `true` (!!!)
 
 ## Building for Desktop Testing
 
@@ -8,32 +61,10 @@ A Java Mindustry mod that works on Android and PC.
 3. Your mod jar will be in the `build/libs` directory. **Only use this version for testing on desktop. It will not work with Android.**
 To build an Android-compatible version, you need the Android SDK. You can either let Github Actions handle this, or set it up yourself. See steps below.
 
-## Building through Github Actions
-
-This repository is set up with Github Actions CI to automatically build the mod for you every commit. This requires a Github repository, for obvious reasons.
-To get a jar file that works for every platform, do the following:
-1. Make a Github repository with your mod name, and upload the contents of this repo to it. Perform any modifications necessary, then commit and push. 
-2. Check the "Actions" tab on your repository page. Select the most recent commit in the list. If it completed successfully, there should be a download link under the "Artifacts" section. 
-3. Click the download link (should be the name of your repo). This will download a **zipped jar** - **not** the jar file itself [2]! Unzip this file and import the jar contained within in Mindustry. This version should work both on Android and Desktop.
-
 ## Building Locally
 
 Building locally takes more time to set up, but shouldn't be a problem if you've done Android development before.
 1. Download the Android SDK, unzip it and set the `ANDROID_HOME` environment variable to its location.
 2. Make sure you have API level 30 installed, as well as any recent version of build tools (e.g. 30.0.1)
 3. Add a build-tools folder to your PATH. For example, if you have `30.0.1` installed, that would be `$ANDROID_HOME/build-tools/30.0.1`.
-4. Run `gradlew deploy`. If you did everything correctlly, this will create a jar file in the `build/libs` directory that can be run on both Android and desktop. 
-
-## Adding Dependencies
-
-Please note that all dependencies on Mindustry, Arc or its submodules **must be declared as compileOnly in Gradle**. Never use `implementation` for core Mindustry or Arc dependencies. 
-
-- `implementation` **places the entire dependency in the jar**, which is, in most mod dependencies, very undesirable. You do not want the entirety of the Mindustry API included with your mod.
-- `compileOnly` means that the dependency is only around at compile time, and not included in the jar.
-
-Only use `implementation` if you want to package another Java library *with your mod*, and that library is not present in Mindustry already.
-
---- 
-
-*[1]* *On Linux/Mac it's `./gradlew`, but if you're using Linux I assume you know how to run executables properly anyway.*  
-*[2]: Yes, I know this is stupid. It's a Github UI limitation - while the jar itself is uploaded unzipped, there is currently no way to download it as a single file.*
+4. Run `gradlew deploy`. If you did everything correctlly, this will create a jar file in the `build/libs` directory that can be run on both Android and desktop.

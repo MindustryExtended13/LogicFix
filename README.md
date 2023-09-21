@@ -1,5 +1,5 @@
-# Mindustry Java Mod Template
-A Java Mindustry mod template that works on Android and PC.
+# Mindustry Java Mod
+A Java Mindustry mod that works on Android and PC.
 
 ## Building for Desktop Testing
 

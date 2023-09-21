@@ -112,11 +112,10 @@ dependencies {
     annotationProcessor "com.github.Anuken:jabel:$jabelVersion"
 
     //core & integration (not optimal and core, integration module can be removed)
-    implementation project(":core")
-    implementation project(":integration")
+    implementation project(":core");
 
     //ME13 components
-    //to implement use "implementation modCore(':module')"
+    implementation modCore(':logger')
 }
 
 //force arc version
@@ -217,11 +216,3 @@ project(":core") {
         compileOnly "com.github.Anuken.MindustryJitpack:core:$mindustryVersion"
     }
 }
-
-//project(":integration") {
-//    dependencies {
-//        annotationProcessor "com.github.Anuken:jabel:$jabelVersion"
-//        compileOnly "com.github.Anuken.Arc:arc-core:$mindustryVersion"
-//        compileOnly "com.github.Anuken.MindustryJitpack:core:$mindustryVersion"
-//    }
-//}

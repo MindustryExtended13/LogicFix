@@ -1,11 +1,11 @@
 {
-  "displayName": "Java Mod Template",
-  "name": "example-java-mod",
-  "author": "You",
-  "main": "example.ExampleJavaMod",
-  "description": "A Mindustry Java mod template.",
+  "displayName": "Logic fix",
+  "name": "logic-fix",
+  "author": "TheEE145",
+  "main": "logicfix.LogicFix",
+  "description": "Mindustry java mod that gives utils to add custom logic.",
   "version": 1.0,
   "minGameVersion": 140,
   "java": true,
-  "repo": "User/RepoName"
+  "repo": "MindustryExtended13/LogicFix"
 }

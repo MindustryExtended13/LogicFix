@@ -8,15 +8,12 @@ import arc.scene.ui.TextField;
 import arc.scene.ui.layout.Cell;
 import arc.scene.ui.layout.Table;
 import arc.struct.ObjectMap;
-import arc.util.Log;
 import mindustry.logic.LAssembler;
 
 import mindustry.logic.LCategory;
 import mindustry.logic.LExecutor;
 import mindustry.logic.LExecutor.*;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Arrays;
 
 public class LStatement extends mindustry.logic.LStatement {
     public static final NoopI INSTRUCTION_INVALID_NOOP = new NoopI();
@@ -165,7 +162,6 @@ public class LStatement extends mindustry.logic.LStatement {
     }
 
     public void read(String[] args) {
-        Log.info(Arrays.toString(args));
         data.read(this, args);
     }
 }

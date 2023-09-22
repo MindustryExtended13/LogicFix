@@ -54,6 +54,8 @@ LSE have by default many static method that can be used for building ui or field
 Some LSE don\`t stores data (example: `logicfix.LStatementEntry.literal(String)`).
 In this statements `doSkip` method was always be `true` (!!!)
 
+methods of LStatementEntry can be see [here](javadoc/doc.md)
+
 ### About `logicfix.registry`
 
 If you have large amount of statements you can use `logicfix.registry` package.

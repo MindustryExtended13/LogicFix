@@ -26,6 +26,11 @@ public class LStatementData {
     }
 
     public void write(LStatement statement, StringBuilder builder) {
-        entries.each(entry -> entry.write(statement, builder));
+        entries.each(entry -> {
+            if(!entry.doSkip(statement)) {
+                entry.write(statement, builder);
+                builder.append(" ");
+            }
+        });
     }
 }

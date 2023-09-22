@@ -17,8 +17,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class LStatement extends mindustry.logic.LStatement {
     public static final NoopI INSTRUCTION_INVALID_NOOP = new NoopI();
-    protected ObjectMap<String, Object> keyMap = new ObjectMap<>();
-    protected ObjectMap<String, Integer> valueMap = new ObjectMap<>();
+    public ObjectMap<String, Object> keyMap = new ObjectMap<>();
+    public ObjectMap<String, Integer> valueMap = new ObjectMap<>();
     private Cons2<LStatement, LExecutor> executor;
     private LStatementData data = new LStatementData();
     private LCategory category = LCategory.unknown;

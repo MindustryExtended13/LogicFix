@@ -54,6 +54,40 @@ LSE have by default many static method that can be used for building ui or field
 Some LSE don\`t stores data (example: `logicfix.LStatementEntry.literal(String)`).
 In this statements `doSkip` method was always be `true` (!!!)
 
+### About `logicfix.registry`
+
+If you have large amount of statements you can use `logicfix.registry` package.
+The "comment" creating example using registry package
+
+ModStatements.java
+```java
+import logicfix.registry.LStatementRegistry;
+import logicfix.registry.RegistryObject;
+import mindustry.logic.LCategory;
+
+public class ModStatements {
+    public static final LStatementRegistry REGISTRY = new LStatementRegistry();
+
+    public static final RegistryObject<LStatement> TEST_STATEMENT = REGISTRY.register("test", () -> {
+        return new LStatement().category(LCategory.io).data(new LStatementData()
+                .add(LStatementEntry.largeField(LStatementEntry.INVALID)));
+    });
+}
+```
+
+ModMain.java
+```java
+import logicfix.LogicFixRegisterEvent;
+
+public class ModName extends Mod {
+    public ExampleMod() {
+        Events.on(LogicFixRegisterEvent.class, (event) -> {
+            ModStatements.REGISTRY.register(event);
+        });
+    }
+}
+```
+
 ## Building for Desktop Testing
 
 1. Install JDK **17**.
